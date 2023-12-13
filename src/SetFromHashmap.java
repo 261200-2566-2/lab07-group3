@@ -1,4 +1,6 @@
+import java.util.Collection;
 import  java.util.HashMap;
+
 
 public class  SetFromHashmap<K,V> extends HashMap{
     HashMap <K,V> s;
@@ -12,17 +14,24 @@ public class  SetFromHashmap<K,V> extends HashMap{
         }
     }
     public void addAll(SetFromHashmap H){
-        for(K key:H.keySet()){
+        for(K val: H.s.keySet()){
             if(s.get(key) == null){
-                V val = H.get(key);
-                s.put(key,val);
+               // V val = H.get(key);
+                s.put(key,key);
             }
         }
     }
+    public boolean containsAll(SetFromHashmap set){
+        for(K key:set.keySet()){
+            if(!s.containsKey(key)) return false;
+        }
+
+        return true;
+    }
 
     @Override
-    public K keySet(){
-
+    public Collection<V> values() {
+        return super.values();
     }
 
 
@@ -44,12 +53,12 @@ public class  SetFromHashmap<K,V> extends HashMap{
     public boolean equals(){
         return false;
     }
-
-    public boolean containsAll(SetFromHashmap s1){
-        for(K key:s1.keySet()){
-            if(!s.containsKey(key)) return false;
-        }
-
-        return true;
+    @Override
+    public int size(){
+        return s.size();
+    }
+    @Override
+    public boolean isEmpty() {
+        return s.isEmpty();
     }
 }

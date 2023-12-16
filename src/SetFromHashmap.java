@@ -1,4 +1,5 @@
 
+import java.util.Collection;
 import  java.util.HashMap;
 
 
@@ -15,7 +16,7 @@ public class  SetFromHashmap<K,V> extends HashMap{
     public boolean isEmpty() {
         return s.isEmpty();
     }
-    public void add(K key,V val){
+    public void add(K key, V val){
         if(s.get(key) == null){
             s.put(key,val);
         }
@@ -38,23 +39,31 @@ public class  SetFromHashmap<K,V> extends HashMap{
         return true;
     }
 
-    public Object remove(SetFromHashmap<K,V> val){
-        return s.remove(val.keySet());
+    public Object remove(Object key){
+        Object o = key;
+        s.remove(key);
+        return o;
     }
-    public void removeAll(){
-        s.clear();
+    public void removeAll(SetFromHashmap<K,V> set){
+        for(K key : set.s.keySet()){
+            if(this.s.containsKey(key)){
+                this.remove(key);
+            }
+        }
+
     }
 
     public boolean retainAll(SetFromHashmap<K,V> set){
         boolean isChange =false;
         SetFromHashmap<K,V> tempSet = new SetFromHashmap<>();
         for(K key:set.s.keySet()){
-            if(this.containsKey(key)){
+            if(this.s.containsKey(key)){
                 tempSet.add(key,this.s.get(key));
+                isChange = true;
             }
         }
-        isChange = !(s.size() == tempSet.size());
-        s=tempSet;
+
+        this.s=tempSet.s;
         return isChange;
     }
 
